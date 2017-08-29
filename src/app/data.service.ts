@@ -20,16 +20,16 @@ export class DataService {
         this.datos = response.json().feed.entry;
         // Collect categories
         for (var juego of this.datos) {
-          if (this.categorias.indexOf(juego.gsx$categoria.$t) < 0)
+          if (juego.gsx$categoria.$t && this.categorias.indexOf(juego.gsx$categoria.$t) < 0)
             this.categorias.push(juego.gsx$categoria.$t);
         }
         // Collect genres
         for (var juego of this.datos) {
-          if (this.generos.indexOf(juego.gsx$mecanica1.$t) < 0)
+          if (juego.gsx$mecanica1.$t && this.generos.indexOf(juego.gsx$mecanica1.$t) < 0)
             this.generos.push(juego.gsx$mecanica1.$t);
-          if (this.generos.indexOf(juego.gsx$mecanica2.$t) < 0)
+          if (juego.gsx$mecanica2.$t && this.generos.indexOf(juego.gsx$mecanica2.$t) < 0)
             this.generos.push(juego.gsx$mecanica2.$t);
-          if (this.generos.indexOf(juego.gsx$mecanica3.$t) < 0)
+          if (juego.gsx$mecanica3.$t && this.generos.indexOf(juego.gsx$mecanica3.$t) < 0)
             this.generos.push(juego.gsx$mecanica3.$t);
         }
       })
