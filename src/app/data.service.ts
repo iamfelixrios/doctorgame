@@ -7,6 +7,7 @@ import { driveUrl } from './app.globals';
 export class DataService {
 
   datos = [];
+  categorias = ['Todos'];
   generos = ['Todos'];
 
   constructor(private http: Http) { }
@@ -17,10 +18,19 @@ export class DataService {
       .toPromise()
       .then((response) => {
         this.datos = response.json().feed.entry;
+        // Collect categories
+        for (var juego of this.datos) {
+          if (this.categorias.indexOf(juego.gsx$categoria.$t) < 0)
+            this.categorias.push(juego.gsx$categoria.$t);
+        }
         // Collect genres
         for (var juego of this.datos) {
-          if (this.generos.indexOf(juego.gsx$tipo.$t) < 0)
-            this.generos.push(juego.gsx$tipo.$t);
+          if (this.generos.indexOf(juego.gsx$mecanica1.$t) < 0)
+            this.generos.push(juego.gsx$mecanica1.$t);
+          if (this.generos.indexOf(juego.gsx$mecanica2.$t) < 0)
+            this.generos.push(juego.gsx$mecanica2.$t);
+          if (this.generos.indexOf(juego.gsx$mecanica3.$t) < 0)
+            this.generos.push(juego.gsx$mecanica3.$t);
         }
       })
       .catch(this.handleError);
@@ -30,13 +40,23 @@ export class DataService {
     return this.generos;
   }
 
-  searchGames(genre, age, duration, numPlayers) {
+  getCategories() {
+    return this.categorias;
+  }
+
+  searchGames(genre, category, age, duration, numPlayers) {
     let resultado = [];
     for (var juego of this.datos) {
       let doesMatch = true;
       // generos
       if (genre && genre !== 'Todos') {
-        if (juego.gsx$tipo.$t !== genre) doesMatch = false;
+        if (juego.gsx$mecanica1.$t !== genre && juego.gsx$mecanica2.$t !== genre && juego.gsx$mecanica3.$t !== genre)
+          doesMatch = false;
+      }
+      // category
+      if (category && category !== 'Todos') {
+        if (juego.gsx$categoria.$t !== category)
+          doesMatch = false;
       }
       // edad
       if (age) {

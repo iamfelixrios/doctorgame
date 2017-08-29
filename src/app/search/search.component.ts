@@ -8,11 +8,13 @@ import { DataService } from '../data.service';
 })
 export class SearchComponent implements OnInit {
   searchGenre: string;
+  searchCategory: string;
   searchAge: number;
   searchDuration: number;
   searchPlayers: number;
 
   isReady: boolean = false;
+  categories = [];
   genres = [];
   juegos = [];
 
@@ -22,14 +24,15 @@ export class SearchComponent implements OnInit {
     this.dataService.getGames().then(
       () => { 
         this.genres = this.dataService.getGenres();
+        this.categories = this.dataService.getCategories();
         this.isReady = true
-        this.juegos = this.dataService.searchGames(undefined, undefined, undefined, undefined);
+        this.juegos = this.dataService.searchGames(undefined, undefined, undefined, undefined, undefined);
       }
     )
   }
 
   goSearch() {
-    this.juegos = this.dataService.searchGames(this.searchGenre, this.searchAge, this.searchDuration, this.searchPlayers);
+    this.juegos = this.dataService.searchGames(this.searchGenre, this.searchCategory, this.searchAge, this.searchDuration, this.searchPlayers);
   }
 
 
