@@ -23,6 +23,8 @@ export class DataService {
           if (juego.gsx$categoria.$t && this.categorias.indexOf(juego.gsx$categoria.$t) < 0)
             this.categorias.push(juego.gsx$categoria.$t);
         }
+        this.categorias.sort();
+
         // Collect genres
         for (var juego of this.datos) {
           if (juego.gsx$mecanica1.$t && this.generos.indexOf(juego.gsx$mecanica1.$t) < 0)
@@ -32,6 +34,7 @@ export class DataService {
           if (juego.gsx$mecanica3.$t && this.generos.indexOf(juego.gsx$mecanica3.$t) < 0)
             this.generos.push(juego.gsx$mecanica3.$t);
         }
+        this.generos.sort();
       })
       .catch(this.handleError);
   }
